@@ -6,7 +6,7 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:37 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/14 19:43:16 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/14 20:09:52 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static char	*get_empty(void)
 	result[0] = '\0';
 	return (result);
 }
+
 char	*ft_strdup(const char	*s1)
 {
 	char	*dst;

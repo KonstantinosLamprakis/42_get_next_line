@@ -6,7 +6,7 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:40 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/14 19:42:17 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/14 20:09:31 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@
 char		*get_next_line(int fd);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
-static char	*get_empty(void);
 char		*ft_strdup(const char	*s1);
+size_t		ft_strlen(const char *s);
 #endif

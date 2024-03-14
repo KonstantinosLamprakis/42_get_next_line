@@ -6,7 +6,7 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:34 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/14 19:54:19 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/14 20:09:02 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 char	*get_next_line(int fd)
 {
 	int			bytes_read;
-	static		buffer[BUFFER_SIZE];
+	char		buffer[BUFFER_SIZE];
 	char		*temp_str_res;
 	char		*temp_str_sen;
 	int			i;
@@ -73,10 +73,10 @@ char	*get_next_line(int fd)
 	return (result);
 }
 
-int	main(void)
-{
-	get_next_line(1);
-}
+// int	main(void)
+// {
+// 	get_next_line(1);
+// }
 
 // // read_dict: read the dict-file and initialize dict num-words and their size
 // // return: 0 on error, 1 on success
