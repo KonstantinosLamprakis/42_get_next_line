@@ -6,7 +6,7 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:37 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/15 14:43:22 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/15 17:33:51 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,19 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		i;
 	int		j;
 
+	if (!s1 && !s2)
+		return (NULL);
 	result = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!result)
 		return (NULL);
 	i = 0;
-	while (s1[i] != '\0')
+	while (s1 && s1[i] != '\0')
 	{
 		result[i] = s1[i];
 		i++;
 	}
 	j = 0;
-	while (s2[j] != '\0')
+	while (s2 && s2[j] != '\0')
 	{
 		result[j + i] = s2[j];
 		j++;
@@ -41,6 +43,8 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	counter;
 
+	if (!s)
+		return (0);
 	counter = 0;
 	while (s[counter] != '\0')
 		counter++;
@@ -52,6 +56,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	i;
 	char	*result;
 
+	if (!s)
+		return (NULL);
+	if (!s[start])
+		return (NULL);
 	if ((int) len < 0)
 		len = ft_strlen(s);
 	if (start > ft_strlen(s) || len < 0)

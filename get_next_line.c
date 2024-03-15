@@ -6,7 +6,7 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:34 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/15 15:53:33 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/15 17:34:03 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,6 @@ static char	*update_values(char **sentense, char **temp_res, char **temp_sen)
 	}
 	if (*temp_res)
 		free (*temp_res);
-	if (*sentense && !(*sentense)[0])
-		free(*sentense);
 	return (result);
 }
 
@@ -151,21 +149,21 @@ static int	read_buf(char **sen, int bytes, char buf[BUFFER_SIZE], char **res)
 	return (1);
 }
 
-// #include <fcntl.h>
-// int main(void)
-// {
-// 	printf("BUFFER_SIZE %i\n", BUFFER_SIZE);
-// 	char	*str;
-// 	int		i;
+#include <fcntl.h>
+int main(void)
+{
+	printf("BUFFER_SIZE %i\n", BUFFER_SIZE);
+	char	*str;
+	int		i;
 
-// 	int fd = open("empty.txt", O_RDONLY);
-// 	str = get_next_line(fd);
-// 	i = 0;
-// 	while(str)
-// 	{
-// 		printf("\n>>>>>>\n i: %d\n result: %s\n<<<<<<\n", i, str);
-// 		str = get_next_line(fd);
-// 		i++;
-// 	}
-// 	close(fd);
-// }
+	int fd = open("empty.txt", O_RDONLY);
+	str = get_next_line(fd);
+	i = 0;
+	while(str)
+	{
+		printf("\n>>>>>>\n i: %d\n result: %s\n<<<<<<\n", i, str);
+		str = get_next_line(fd);
+		i++;
+	}
+	close(fd);
+}
