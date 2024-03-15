@@ -6,15 +6,44 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:34 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/15 14:46:27 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/15 15:53:33 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
+static int	init(char **sentense, char buffer[BUFFER_SIZE], int fd);
+static int	is_valid_bytes(char **sentense, int bytes_read);
+static char	*update_values(char **sentense, char **temp_res, char **temp_sen);
+static int	read_buf(char **sen, int bytes, char buf[BUFFER_SIZE], char **res);
+
 // cc -Wall -Werror -Wextra *.c *.h && ./a.out | cat -e
 // TODO maybe need to free prev sentense or return it before errors NULL
+
+char	*get_next_line(int fd)
+{
+	int			bytes_read;
+	char		buffer[BUFFER_SIZE];
+	char		*temp_str_res;
+	char		*result;
+	static char	*sentense;
+
+	if (!init(&sentense, buffer, fd))
+		return (NULL);
+	temp_str_res = has_prev_sentense(&sentense);
+	if (temp_str_res)
+		return (temp_str_res);
+	while (42)
+	{
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (!is_valid_bytes(&sentense, bytes_read))
+			return (sentense);
+		if (read_buf(&sentense, bytes_read, buffer, &result))
+			return (result);
+	}
+	return (result);
+}
 
 // first checks if file descriptor (fd) is valid
 // initialize the buffer with \0 values
@@ -63,7 +92,7 @@ static int	is_valid_bytes(char **sentense, int bytes_read)
 
 // returns result or NULL if nothing to return as new line
 // update value of sentense
-char	*update_values(char **sentense, char **temp_res, char **temp_sen)
+static char	*update_values(char **sentense, char **temp_res, char **temp_sen)
 {
 	char	*result;
 
@@ -93,7 +122,7 @@ char	*update_values(char **sentense, char **temp_res, char **temp_sen)
 // returns 1 if finished with the result, we found \n or EOF
 // returns 0 if just updated sentense and need to read next buffer
 // read bytes, if we have \n we retrun the result else we need read next
-int	read_buffer(char **sen, int bytes, char buf[BUFFER_SIZE], char **res)
+static int	read_buf(char **sen, int bytes, char buf[BUFFER_SIZE], char **res)
 {
 	char	*temp_str_res;
 	char	*temp_str_sen;
@@ -120,30 +149,6 @@ int	read_buffer(char **sen, int bytes, char buf[BUFFER_SIZE], char **res)
 	}
 	*res = update_values(sen, &temp_str_res, &temp_str_sen);
 	return (1);
-}
-
-char	*get_next_line(int fd)
-{
-	int			bytes_read;
-	char		buffer[BUFFER_SIZE];
-	char		*temp_str_res;
-	char		*result;
-	static char	*sentense;
-
-	if (!init(&sentense, buffer, fd))
-		return (NULL);
-	temp_str_res = has_prev_sentense(&sentense);
-	if (temp_str_res)
-		return (temp_str_res);
-	while (42)
-	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (!is_valid_bytes(&sentense, bytes_read))
-			return (sentense);
-		if (read_buffer(&sentense, bytes_read, buffer, &result))
-			return (result);
-	}
-	return (result);
 }
 
 // #include <fcntl.h>
