@@ -6,7 +6,7 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:37 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/15 17:33:51 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/15 18:35:17 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	i;
 	char	*result;
 
-	if (!s)
+	if (!s || len == 0)
 		return (NULL);
 	if (!s[start])
 		return (NULL);
@@ -118,11 +118,6 @@ char	*has_prev_sentense(char **sen)
 	if ((*sen)[i] == '\0')
 		return (NULL);
 	temp_str_res = ft_substr((*sen), 0, i + 1);
-	if (i == 0)
-	{
-		free((*sen));
-		return (temp_str_res);
-	}
 	temp_str_sen = ft_substr((*sen), i + 1, ft_strlen((*sen)) - (i + 1));
 	free((*sen));
 	(*sen) = temp_str_sen;
