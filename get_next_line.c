@@ -6,7 +6,7 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:34 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/15 09:15:25 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/15 09:34:40 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ char	*get_next_line(int fd)
 	i = 0;
 	if (sentense)
 	{
+		// puts("in sentence");
 		while(sentense[i] != '\n' && sentense[i] != '\0')
 			i++;
 		if (sentense[i] == '\n')
 		{
 			// puts("end of line on prev");
 			temp_str_res = ft_substr(sentense, 0, i + 1);
-			temp_str_sen = ft_substr(sentense, i + 2, ft_strlen(sentense) - (i + 1));
+			temp_str_sen = ft_substr(sentense, i + 1, ft_strlen(sentense) - (i + 1));
 			free(sentense);
 			sentense = temp_str_sen;
 			// printf("first: %s\n", temp_str_res);
@@ -51,18 +52,18 @@ char	*get_next_line(int fd)
 	while (42)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		// printf("read bytes: %d\n", bytes_read);
 		if (bytes_read == -1)
 			return (NULL);
 		else if (bytes_read == 0)
 		{
-			result = ft_strdup(sentense);
-			free (sentense);
-			return (result);
+			if (sentense && sentense[0])
+				return (sentense);
+			return (NULL);
 		}
 		i = 0;
 		while (i < bytes_read && buffer[i] != '\n')
 			i++;
-		// printf("read bytes: %d\n", bytes_read);
 		if (buffer[i] == '\n')
 		{
 			// puts("end of line");
@@ -114,14 +115,12 @@ int main(void)
 
 	int fd = open("empty.txt", O_RDONLY);
 	str = get_next_line(fd);
-	puts (str);
 	i = 0;
-	while(str && i != 1)
+	while(str && i != 7)
 	{
-		//printf("\n----------------\n-i: %d-\n", i);
-		i++;
+		printf("\n\n>>>>>>>>>>>>>>>>\n i: %d\n result: %s\n<<<<<<<<<<<<<<<<\n", i, str);
 		str = get_next_line(fd);
-		puts (str);
+		i++;
 	}
 	close(fd);
 };
