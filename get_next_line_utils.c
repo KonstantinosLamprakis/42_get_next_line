@@ -6,120 +6,113 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:37 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/15 18:35:17 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:35:21 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+// return NULL if mem_str == NUL or mem_str not contain any new line
+// return the first new line of mem_str and updates mem_str with the rest of it
+char	*get_first_line(char **mem_str)
 {
-	char	*result;
 	int		i;
 	int		j;
+	char	*result;
+	char	*temp_mem_str;
 
-	if (!s1 && !s2)
-		return (NULL);
-	result = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (!result)
+	if(!(*mem_str))
 		return (NULL);
 	i = 0;
-	while (s1 && s1[i] != '\0')
+	while ((*mem_str)[i] != '\0' && (*mem_str)[i] != '\n')
+		i++;
+	if ((*mem_str)[i] == '\0')
+		return (NULL);
+	result = malloc ((i + 2) * sizeof(char));
+	if (!result)
+		return (NULL);
+	j = -1;
+	while (++j <= i)
+		result[j] = (*mem_str)[j];
+	result[j] = '\0';
+	temp_mem_str = malloc((ft_strlen(*mem_str) - i) * sizeof(char));
+	if (!temp_mem_str)
 	{
-		result[i] = s1[i];
+		free(result);
+		return (NULL);
+	}
+	j = 0;
+	while ((*mem_str)[++i] != '\0')
+		temp_mem_str[j++] = (*mem_str)[i];
+	temp_mem_str[j] = '\0';
+	free (*mem_str);
+	*mem_str = temp_mem_str;
+	return (result);
+}
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+// puts first num_butes of buffer at the end of mem_str
+// if error returns NULL
+// if mem_str == NULL, it creates it
+void	put_buffer(char buffer[BUFFER_SIZE], int num_bytes, char **mem_str)
+{
+	int		i;
+	int		j;
+	char	*temp_str;
+
+	if (!buffer || num_bytes == 0)
+		return ;
+	if (buffer[0] == '\0')
+		return ;
+	j = ft_strlen(*mem_str);
+	temp_str = malloc ((j + num_bytes + 1) * sizeof (char));
+	if (!temp_str)
+		return ;
+	i = 0;
+	while (i < j)
+	{
+		temp_str[i] = (*mem_str)[i];
 		i++;
 	}
 	j = 0;
-	while (s2 && s2[j] != '\0')
-	{
-		result[j + i] = s2[j];
-		j++;
-	}
-	result[i + j] = '\0';
-	return (result);
+	while (j < num_bytes)
+		temp_str[i++] = buffer[j++];
+	temp_str[i] = '\0';
+	if (*mem_str)
+		free(*mem_str);
+	*mem_str = temp_str;
 }
 
-size_t	ft_strlen(const char *s)
+// free the mem_str and returns a new identical string
+char	*get_whole_str(char **mem_str)
 {
-	size_t	counter;
-
-	if (!s)
-		return (0);
-	counter = 0;
-	while (s[counter] != '\0')
-		counter++;
-	return (counter);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t	i;
 	char	*result;
+	int		i;
 
-	if (!s || len == 0)
+	if (!(*mem_str))
 		return (NULL);
-	if (!s[start])
-		return (NULL);
-	if ((int) len < 0)
-		len = ft_strlen(s);
-	if (start > ft_strlen(s) || len < 0)
-		result = malloc(1 * sizeof(char));
-	else if (ft_strlen(s) - start < len)
-		result = malloc((ft_strlen(s) - start + 1) * sizeof(char));
-	else
-		result = malloc((len + 1) * sizeof(char));
+	result = malloc((ft_strlen(*mem_str) + 1) * sizeof(char));
 	if (!result)
 		return (NULL);
 	i = 0;
-	while (s[i + start] != '\0' && i < len)
+	while ((*mem_str)[i] != '\0')
 	{
-		result[i] = s[i + start];
+		result[i] = (*mem_str)[i];
 		i++;
 	}
 	result[i] = '\0';
+	free(*mem_str);
+	*mem_str = NULL;
 	return (result);
-}
-
-char	*ft_strdup(const char	*s1)
-{
-	char	*dst;
-	int		i;
-
-	dst = malloc(ft_strlen(s1) + 1);
-	if (!dst)
-		return (dst);
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		dst[i] = s1[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}
-
-// returns:
-// NULL if sentense is null or doesn't contain a whole sentense yet
-// sub-sentense allocated if exists in sentense and update its values
-// args:
-// sen: contains the sentence that should be checked for \n
-// if \n found, temp_str_res holds this line, sentense updated to hold the rest
-char	*has_prev_sentense(char **sen)
-{
-	int		i;
-	char	*temp_str_sen;
-	char	*temp_str_res;
-
-	if (!(*sen))
-		return (NULL);
-	i = 0;
-	while ((*sen)[i] != '\n' && (*sen)[i] != '\0')
-		i++;
-	if ((*sen)[i] == '\0')
-		return (NULL);
-	temp_str_res = ft_substr((*sen), 0, i + 1);
-	temp_str_sen = ft_substr((*sen), i + 1, ft_strlen((*sen)) - (i + 1));
-	free((*sen));
-	(*sen) = temp_str_sen;
-	return (temp_str_res);
 }

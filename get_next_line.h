@@ -6,7 +6,7 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:40 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/15 14:43:52 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:21:59 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
-char		*get_next_line(int fd);
-char		*ft_strjoin(char const *s1, char const *s2);
-char		*ft_substr(char const *s, unsigned int start, size_t len);
-char		*ft_strdup(const char	*s1);
-size_t		ft_strlen(const char *s);
-char		*has_prev_sentense(char **sen);
+char	*get_next_line(int fd);
+int		ft_strlen(char *str);
+char	*get_first_line(char **mem_str);
+void	put_buffer(char buffer[BUFFER_SIZE], int num_bytes, char **mem_str);
+char	*get_whole_str(char **mem_str);
 #endif
