@@ -6,14 +6,13 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:34 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/18 15:17:22 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:56:11 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 // cc -Wall -Werror -Wextra *.c *.h && ./a.out | cat -e
-// TODO delete <stidio.h> from .h
 
 char	*get_next_line(int fd)
 {
