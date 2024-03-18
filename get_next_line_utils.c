@@ -6,7 +6,7 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:37 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/18 13:35:21 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:21:46 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ char	*get_first_line(char **mem_str)
 	while (++j <= i)
 		result[j] = (*mem_str)[j];
 	result[j] = '\0';
+	if ((*mem_str)[i + 1] == '\0')
+	{
+		free(*mem_str);
+		*mem_str = NULL;
+		return (result);
+	}
 	temp_mem_str = malloc((ft_strlen(*mem_str) - i) * sizeof(char));
 	if (!temp_mem_str)
 	{
