@@ -6,7 +6,7 @@
 /*   By: klamprak <klamprak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:42:34 by klamprak          #+#    #+#             */
-/*   Updated: 2024/03/18 15:08:00 by klamprak         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:17:22 by klamprak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,12 @@ char	*get_next_line(int fd)
 	{
 		num_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (num_bytes == -1)
-			return (get_whole_str(&mem_str));
+		{
+			if (mem_str)
+				free(mem_str);
+			mem_str = NULL;
+			return (NULL);
+		}
 		put_buffer(buffer, num_bytes, &mem_str);
 		result = get_first_line(&mem_str);
 		if (result)
